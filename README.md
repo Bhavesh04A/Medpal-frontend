@@ -1,54 +1,37 @@
-# React + TypeScript + Vite
+## MedPal: ##
+MedPal is your trusted AI-powered health companion, designed to make healthcare accessible, reliable, and user-friendly for everyone. With MedPal, users can instantly check symptoms using advanced AI, book appointments with healthcare professionals, find nearby clinics, and manage their health records—all from one intuitive platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Key Features: ##
 
-Currently, two official plugins are available:
+AI Symptom Checker: Describe your symptoms and get instant, reliable health guidance powered by advanced AI.
+Book Appointments: Easily schedule appointments with doctors and healthcare experts.
+Clinic Locator: Quickly find and connect with nearby clinics and healthcare centers.
+Personal Health Dashboard: Manage your profile, view upcoming appointments, and track recent activity.
+Notifications: Stay updated with important health reminders and appointment alerts.
+Secure & Private: Your health data is always protected and compliant with HIPAA & GDPR standards
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack: ##
 
-## Expanding the ESLint configuration
+## Frontend: ##
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+React (with Vite) – Modern, fast, and modular UI development
+TypeScript – Type safety for robust code
+React Router – Client-side routing for seamless navigation
+Context API – Global state management for authentication, theme, and appointments
+Framer Motion – Animations and transitions for rich user experience
+Tailwind CSS – Utility-first CSS framework for responsive, mobile-friendly design
+React Toastify – Toast notifications for user feedback
+Axios – HTTP client for API calls
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Backend: ##
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Node.js & Express.js – RESTful API server (hosted on Render)
+MongoDB – NoSQL database for scalable data storage
+JWT Authentication – Secure user authentication and session management
+Multer – File uploads for profile images
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Deployment & DevOps: ##
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+Frontend: Vercel (CI/CD, custom domains)
+Backend: Render.com (scalable cloud hosting)
+Environment Variables: Managed securely for API endpoints
