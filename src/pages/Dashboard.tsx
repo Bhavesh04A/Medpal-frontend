@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useAppointments } from "../context/AppointmentsContext";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion"; 
+import { motion, AnimatePresence } from "framer-motion";
 
 // Array of health tips
 const healthTips = [
@@ -28,7 +28,7 @@ const containerVariants = {
       when: "beforeChildren"
     }
   }
-};
+} as const;
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -36,11 +36,11 @@ const itemVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      ease: "easeOut",
+      ease: "easeOut" as const,
       duration: 0.5
     }
   }
-};
+} as const;
 
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.95 },
@@ -48,21 +48,20 @@ const cardVariants = {
     opacity: 1,
     scale: 1,
     transition: {
-      ease: "backOut",
+      ease: "backOut" as const,
       duration: 0.5
     }
   },
   hover: {
     y: -5,
     transition: {
-      ease: "easeOut",
+      ease: "easeOut" as const,
       duration: 0.2
     }
   }
-};
+} as const;
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
-
 
 export default function Dashboard() {
   const { user, profileImgTs } = useAuth();
@@ -90,7 +89,7 @@ export default function Dashboard() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: "easeOut" as const }}
       className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex flex-col"
     >
       <main className="flex-1 flex flex-col items-center px-4 py-8 md:py-12">
@@ -116,8 +115,9 @@ export default function Dashboard() {
               alt="Profile"
               className="w-24 h-24 rounded-full border-4 border-white shadow-lg mb-4"
               onError={e => {
-                e.target.onerror = null;
-                e.target.src = "/default-avatar.png";
+                const target = e.target as HTMLImageElement;
+                target.onerror = null;
+                target.src = "/default-avatar.png";
               }}
             />
             <div className="absolute inset-0 rounded-full border-4 border-transparent group-hover:border-blue-200 transition-all duration-300"></div>
@@ -147,12 +147,11 @@ export default function Dashboard() {
             </Link>
           </motion.div>
         </motion.div>
-
         {/* Health Tip */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
+          transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" as const }}
           className="bg-white border-l-4 border-blue-500 rounded-lg p-4 mb-8 w-full max-w-4xl text-left shadow-md hover:shadow-lg transition-shadow duration-300"
         >
           <div className="flex items-start">

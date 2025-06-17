@@ -2,10 +2,18 @@ import { useState } from "react";
 import Message from "./Message";
 import InputBox from "./InputBox";
 
+
+type SenderType = "user" | "bot";
+
+interface MessageType {
+  sender: SenderType;
+  text: string;
+}
+
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function Chatbot() {
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<MessageType[]>([
     { sender: "bot", text: "Hi! Describe your symptoms and I'll help you." }
   ]);
   const [responding, setResponding] = useState(false);

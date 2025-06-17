@@ -4,18 +4,27 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { FaMapMarkerAlt, FaSearchLocation, FaSpinner } from "react-icons/fa";
 
-
 const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+
+interface Clinic {
+  place_id?: string;
+  name?: string;
+  formatted_address?: string;
+  vicinity?: string;
+  rating?: number;
+  user_ratings_total?: number;
+}
 
 export default function ClinicLocator() {
   const [query, setQuery] = useState("");
-  const [clinics, setClinics] = useState([]);
+  const [clinics, setClinics] = useState<Clinic[]>([]);
   const [loading, setLoading] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<Clinic[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const debounceRef = useRef(null);
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
     setShowSuggestions(true);
@@ -37,7 +46,7 @@ export default function ClinicLocator() {
     }, 250);
   };
 
-  const searchClinics = async (e) => {
+  const searchClinics = async (e?: React.FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
     setLoading(true);
     setShowSuggestions(false);
@@ -55,8 +64,9 @@ export default function ClinicLocator() {
     setLoading(false);
   };
 
-  const handleSuggestionClick = (clinic) => {
-    setQuery(clinic.name);
+ 
+  const handleSuggestionClick = (clinic: Clinic) => {
+    setQuery(clinic.name || "");
     setShowSuggestions(false);
     searchClinics();
   };
@@ -84,7 +94,7 @@ export default function ClinicLocator() {
         }
         setLoading(false);
       },
-      (err) => {
+      () => {
         toast.error("Location access denied.");
         setClinics([]);
         setLoading(false);
@@ -154,8 +164,7 @@ export default function ClinicLocator() {
           </motion.button>
         </div>
       </form>
-
-      {loading ? (
+     {loading ? (
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

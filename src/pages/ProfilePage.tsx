@@ -3,10 +3,10 @@ import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-
+import type { Variants } from "framer-motion";
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -17,7 +17,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
@@ -37,7 +37,7 @@ export default function ProfilePage() {
   const [phone, setPhone] = useState(user?.phone || "");
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -54,7 +54,8 @@ export default function ProfilePage() {
     setPhone(user?.phone || "");
   }, [user]);
 
-  const handlePicChange = async (e) => {
+  // FIX: Add event type
+  const handlePicChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const formData = new FormData();
@@ -81,7 +82,8 @@ export default function ProfilePage() {
     setLoading(false);
   };
 
-  const handleSave = async (e) => {
+  // FIX: Add event type
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -169,12 +171,14 @@ export default function ProfilePage() {
                   }
                   alt="Profile"
                   className="w-24 h-24 rounded-full border-4 border-white shadow-lg mb-4"
+                  // FIX: Typecast e.target as HTMLImageElement
                   onError={e => {
-                    e.target.onerror = null;
-                    e.target.src = "/default-avatar.png";
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = "/default-avatar.png";
                   }}
                 />
-              </div>
+             </div>
               {editMode && (
                 <>
                   <button

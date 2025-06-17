@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import type { ReactNode } from "react";
 import axios from "axios";
 
 type User = {
@@ -34,7 +35,6 @@ const AuthContext = createContext<AuthContextType>({
   setProfileImgTs: () => {},
 });
 
-
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 const API_URL = `${API_BASE_URL}/api/auth`;
 
@@ -43,32 +43,33 @@ function getInitialUser() {
   return userStr ? JSON.parse(userStr) : null;
 }
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("medpal_token"));
   const [user, setUser] = useState<User | null>(getInitialUser);
   const [loading, setLoading] = useState(true);
   const [profileImgTs, setProfileImgTs] = useState(Date.now());
 
- useEffect(() => {
-  try {
-    if (user) {
-      const { _id, name, email, phone } = user;
-      localStorage.setItem("medpal_user", JSON.stringify({ _id, name, email, phone }));
-    } else {
-      localStorage.removeItem("medpal_user");
+  useEffect(() => {
+    try {
+      if (user) {
+        const { _id, name, email, phone } = user;
+        localStorage.setItem("medpal_user", JSON.stringify({ _id, name, email, phone }));
+      } else {
+        localStorage.removeItem("medpal_user");
+      }
+    } catch (err) {
+      // Type guard for err
+      if (
+        err instanceof Error &&
+        "name" in err &&
+        (err.name === "QuotaExceededError" || err.name === "NS_ERROR_DOM_QUOTA_REACHED")
+      ) {
+        console.error("localStorage quota exceeded. User data not saved.");
+      } else {
+        throw err;
+      }
     }
-  } catch (err) {
-    if (
-      err.name === "QuotaExceededError" ||
-      err.name === "NS_ERROR_DOM_QUOTA_REACHED"
-    ) {
-      console.error("localStorage quota exceeded. User data not saved.");
-    } else {
-      throw err;
-    }
-  }
-}, [user]);
-
+  }, [user]);
 
   useEffect(() => {
     const token = localStorage.getItem("medpal_token");

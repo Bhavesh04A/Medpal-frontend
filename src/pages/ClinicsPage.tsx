@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import ClinicLocator from "../components/Clinics/ClinicLocator";
 
 const containerVariants = {
@@ -10,7 +10,7 @@ const containerVariants = {
       staggerChildren: 0.1
     }
   }
-};
+} as const;
 
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
@@ -18,12 +18,12 @@ const itemVariants = {
     y: 0,
     opacity: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 10
     }
   }
-};
+} as const;
 
 export default function ClinicsPage() {
   return (

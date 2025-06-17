@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import AppointmentForm from "../components/Appointments/AppointmentForm";
 import AppointmentList from "../components/Appointments/AppointmentList";
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -13,13 +14,13 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
     opacity: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 10
     }

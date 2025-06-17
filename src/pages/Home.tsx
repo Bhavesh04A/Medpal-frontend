@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 // Dummy testimonials data
@@ -53,7 +54,14 @@ const featureCards = [
   },
 ];
 
-const TrustBadge = ({ emoji, title, description }) => {
+// Added proper typing for props
+interface TrustBadgeProps {
+  emoji: string;
+  title: string;
+  description: string;
+}
+
+const TrustBadge = ({ emoji, title, description }: TrustBadgeProps) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -86,7 +94,6 @@ const TrustBadge = ({ emoji, title, description }) => {
 export default function Home() {
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const controlsRef = useRef();
 
   useEffect(() => {
     setIsLoggedIn(!!localStorage.getItem("medpal_token"));
@@ -97,7 +104,7 @@ export default function Home() {
   const showNext = () =>
     setTestimonialIdx((idx) => (idx === testimonials.length - 1 ? 0 : idx + 1));
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -108,14 +115,14 @@ export default function Home() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
         duration: 0.5,
-        ease: "easeOut"
+        ease: "easeOut" as const
       }
     }
   };
@@ -174,7 +181,6 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
-
       {/* Features Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <motion.div 
@@ -203,7 +209,7 @@ export default function Home() {
           viewport={{ once: true }}
           className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
         >
-          {featureCards.map((card, index) => (
+          {featureCards.map((card) => (
             <motion.div
               key={card.title}
               variants={itemVariants}
@@ -216,7 +222,7 @@ export default function Home() {
               <motion.span 
                 className={`text-4xl mb-4 rounded-full p-3 ${card.iconBg} shadow-inner`}
                 whileHover={{ rotate: 10, scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300 }}
+                transition={{ type: "spring" as const, stiffness: 300 }}
               >
                 {card.icon}
               </motion.span>
@@ -251,7 +257,7 @@ export default function Home() {
             <motion.div 
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
-              transition={{ type: "spring" }}
+              transition={{ type: "spring" as const }}
               viewport={{ once: true }}
               className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-white p-2 rounded-full shadow"
             >
